@@ -1,60 +1,22 @@
 <html>
-<template id='feeditemtemplate'>
-	<article>
-		<h3><a href="" target="_blank" rel="noopener"></a></h2>
-		<p></p>
-	</article>
-</template>
+	<template id='feeditemtemplate'>
+		<article>
+			<h3><a href="" target="_blank" rel="noopener"></a></h2>
+			<p></p>
+		</article>
+	</template>
 
 	<head>
+		<script type="text/javascript" src='jsreader.js'></script>
 		<script type="text/javascript">
-			//TODO: move to external js file
-/*
-Thank you https://css-tricks.com/how-to-fetch-and-parse-rss-feeds-in-javascript/.
-templates: https://www.w3schools.com/TagS/tag_template.asp
-*/
-
-
-const feeditemtemplate = document.getElementById('feeditemtemplate').content;
-
-fetchfeeds();
-
-function fetchfeeds(){
-	// TODO: move urls to local storage
-	const rssurls = ['https://codepen.io/picks/feed/','https://www.sans.org/tip-of-the-day/rss'];
-	rssurls.forEach(url => fetchfeed(`${url}`));
-}
-
-function fetchfeed(url){
-fetch(url)
-	.then(response => response.text())
-	.then(str => new window.DOMParser().parseFromString(str, "text/xml"))
-	.then(data => {
-		// TODO: use template for channel
-		const items = data.querySelectorAll("item");
-		items.forEach(el => {
-			var title = `${el.querySelector('title').innerHTML}`;
-			title = clean(title);
-
-			var description = `${el.querySelector('description').innerHTML}`;
-			description = clean(description);
-
-			node = document.importNode(feeditemtemplate, true);
-			node.querySelector('a').text = title;
-			node.querySelector('a').href = `${el.querySelector('link').innerHTML}`;
-			node.querySelector('p').innerHTML = description;
-			document.body.appendChild(node);
-		});
- 	});
-}
-
-function clean(str){
-	return str.replace("<![CDATA[", "").replace("]]>", "");
-}
+			var feeds = new JSReader({
+			    containingElement: 'section'
+			});
 		</script>
 	</head>
 	<body>
 			<h1>Read</h1>
+			<section></section>
 
 
 
