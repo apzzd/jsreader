@@ -8,16 +8,17 @@
 
 	<head>
 		<script type="text/javascript">
+			//TODO: move to external js file
 // Thank you https://css-tricks.com/how-to-fetch-and-parse-rss-feeds-in-javascript/.
 
-// TODO: move urls to local storage
+
 const feeditemtemplate = document.getElementById('feeditemtemplate').content;
 
 fetchfeeds();
 
 function fetchfeeds(){
-	var rssurls = ['https://codepen.io/picks/feed/','https://www.sans.org/tip-of-the-day/rss'];
-
+	// TODO: move urls to local storage
+	const rssurls = ['https://codepen.io/picks/feed/','https://www.sans.org/tip-of-the-day/rss'];
 	rssurls.forEach(url => fetchfeed(`${url}`));
 }
 
@@ -26,14 +27,17 @@ fetch(url)
 	.then(response => response.text())
 	.then(str => new window.DOMParser().parseFromString(str, "text/xml"))
 	.then(data => {
+		// TODO: use template for channel
 // 		console.log(data);
- 		const items = data.querySelectorAll("item");
- //		console.log(items);
- 		console.log(feeditemtemplate);
- //		html = '';
+		const items = data.querySelectorAll("item");
+// 		console.log(items);
+// 		console.log(feeditemtemplate);
 		items.forEach(el => {
 			node = document.importNode(feeditemtemplate, true);
-			node.querySelector('a').text = `${el.querySelector("title").innerHTML}`;
+			node.querySelector('a').text = `${el.querySelector('title').innerHTML}`;
+			node.querySelector('a').href = `${el.querySelector('link').innerHTML}`;
+			console.log(el.querySelector('description').innerHTML);
+			node.querySelector('p').innerHTML = `${el.querySelector('description').innerHTML}`;
 			document.body.appendChild(node);
 		});
  	});
