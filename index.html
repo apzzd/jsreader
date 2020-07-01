@@ -1,7 +1,7 @@
 <html>
 <template id='feeditemtemplate'>
 	<article>
-		<h2><a href="" target="_blank" rel="noopener"></a></h2>
+		<h3><a href="" target="_blank" rel="noopener"></a></h2>
 		<p></p>
 	</article>
 </template>
@@ -9,7 +9,10 @@
 	<head>
 		<script type="text/javascript">
 			//TODO: move to external js file
-// Thank you https://css-tricks.com/how-to-fetch-and-parse-rss-feeds-in-javascript/.
+/*
+Thank you https://css-tricks.com/how-to-fetch-and-parse-rss-feeds-in-javascript/.
+templates: https://www.w3schools.com/TagS/tag_template.asp
+*/
 
 
 const feeditemtemplate = document.getElementById('feeditemtemplate').content;
@@ -28,24 +31,30 @@ fetch(url)
 	.then(str => new window.DOMParser().parseFromString(str, "text/xml"))
 	.then(data => {
 		// TODO: use template for channel
-// 		console.log(data);
 		const items = data.querySelectorAll("item");
-// 		console.log(items);
-// 		console.log(feeditemtemplate);
 		items.forEach(el => {
+			var title = `${el.querySelector('title').innerHTML}`;
+			title = clean(title);
+
+			var description = `${el.querySelector('description').innerHTML}`;
+			description = clean(description);
+
 			node = document.importNode(feeditemtemplate, true);
-			node.querySelector('a').text = `${el.querySelector('title').innerHTML}`;
+			node.querySelector('a').text = title;
 			node.querySelector('a').href = `${el.querySelector('link').innerHTML}`;
-			console.log(el.querySelector('description').innerHTML);
-			node.querySelector('p').innerHTML = `${el.querySelector('description').innerHTML}`;
+			node.querySelector('p').innerHTML = description;
 			document.body.appendChild(node);
 		});
  	});
 }
+
+function clean(str){
+	return str.replace("<![CDATA[", "").replace("]]>", "");
+}
 		</script>
 	</head>
 	<body>
-			<div id='demo'></div>
+			<h1>Read</h1>
 
 
 
