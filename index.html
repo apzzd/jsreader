@@ -1,7 +1,7 @@
 <html>
-	<template id='feeditemtemplate'>
+	<template id='itemtemplate'>
 		<article>
-			<h3><a href="" target="_blank" rel="noopener"></a></h2>
+			<h3><a href="" target="_blank" rel="noopener"></a></h3>
 			<p></p>
 		</article>
 	</template>
@@ -10,7 +10,7 @@
 		<script type="text/javascript" src='jsreader.js'></script>
 		<script type="text/javascript">
 			var feeds = new JSReader({
-			    containingElement: 'section'
+			    containerSelector: 'body'
 			});
 		</script>
 	</head>
