@@ -1,4 +1,4 @@
-			//TODO: move to external js file
+
 /*
 Thank you https://css-tricks.com/how-to-fetch-and-parse-rss-feeds-in-javascript/.
 templates: https://www.w3schools.com/TagS/tag_template.asp
