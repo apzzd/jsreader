@@ -52,17 +52,14 @@ var feeds = new JSReader({
 				// TODO: use template for channel
 				const items = data.querySelectorAll("item");
 				items.forEach(el => {
-					var title = clean(el.querySelector('title').innerHTML);
-					var description = clean(el.querySelector('description').innerHTML);
-					var href = el.querySelector('link').innerHTML;
-
 					var template = document.createElement('template');
 					template.innerHTML = obj.options.itemTemplate;
 
 					node = document.importNode(template.content, true);
-					node.querySelector('a').text = title;
-					node.querySelector('a').href = `${el.querySelector('link').innerHTML}`;
-					node.querySelector('p').innerHTML = description;
+					// TODO: check for injection of malcious content
+					node.querySelector('a').text = clean(el.querySelector('title').innerHTML);
+					node.querySelector('a').href = el.querySelector('link').innerHTML;
+					node.querySelector('p').innerHTML = clean(el.querySelector('description').innerHTML);
 					document.querySelector(obj.options.containerSelector).appendChild(node);
 					
 				});
