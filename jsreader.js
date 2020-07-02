@@ -1,10 +1,11 @@
 
 /*
 Thank you https://css-tricks.com/how-to-fetch-and-parse-rss-feeds-in-javascript/.
-templates: https://www.w3schools.com/TagS/tag_template.asp
+
+refresher on building a plugin: https://scotch.io/tutorials/building-your-own-javascript-modal-plugin
 
 var feeds = new JSReader({
-    containingElement: 'body'
+    containerSelector: 'body'
 });
 
 */
@@ -14,6 +15,7 @@ var feeds = new JSReader({
 		// TODO: move urls to local storage
 		var defaults = {
 	      containerSelector: 'body',
+	      channelTemplate: '<section><h2></h2></section>',
 	      itemTemplate: '<article><h3><a target="_blank" rel="noopener"></a></h3><p></p></article>',
 	      rssUrls: ['https://codepen.io/picks/feed/','https://www.sans.org/tip-of-the-day/rss']
 	    }
@@ -25,9 +27,9 @@ var feeds = new JSReader({
 	    fetchfeeds(this);
 	}
 
-	JSReader.prototype.open = function() {
-	// public code goes here
-	}
+	// JSReader.prototype.open = function() {
+	// // public code goes here
+	// }
 
 
 	function extendDefaults(source, properties) {
@@ -49,20 +51,26 @@ var feeds = new JSReader({
 			.then(response => response.text())
 			.then(str => new window.DOMParser().parseFromString(str, "text/xml"))
 			.then(data => {
-				// TODO: use template for channel
+// TODO: check for injection of malcious content
+
+				channeltemplate = document.createElement('template');
+				channeltemplate.innerHTML = obj.options.channelTemplate;
+				channelnode = document.importNode(channeltemplate.content, true);
+				channelnode.querySelector('h2').innerHTML = clean(data.querySelector("channel title").innerHTML);
+
 				const items = data.querySelectorAll("item");
 				items.forEach(el => {
 					var template = document.createElement('template');
 					template.innerHTML = obj.options.itemTemplate;
 
 					node = document.importNode(template.content, true);
-					// TODO: check for injection of malcious content
 					node.querySelector('a').text = clean(el.querySelector('title').innerHTML);
 					node.querySelector('a').href = el.querySelector('link').innerHTML;
 					node.querySelector('p').innerHTML = clean(el.querySelector('description').innerHTML);
-					document.querySelector(obj.options.containerSelector).appendChild(node);
-					
+					channelnode.querySelector('section').appendChild(node);
 				});
+
+				document.querySelector(obj.options.containerSelector).appendChild(channelnode);
 		 	});
 	}
 
