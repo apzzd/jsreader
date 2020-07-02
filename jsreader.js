@@ -8,23 +8,35 @@ var feeds = new JSReader({
     containerSelector: 'body'
 });
 
+//	      rssUrls: ['https://codepen.io/picks/feed/','https://www.sans.org/tip-of-the-day/rss']
+
+
 */
 (function () {
 
 	this.JSReader = function(){
+		this.urlFormTemplate = '<textarea id="rssUrls"></textarea>';
+
 		// TODO: move urls to local storage
 		var defaults = {
 	      containerSelector: 'body',
 	      channelTemplate: '<section><h2></h2></section>',
-	      itemTemplate: '<article><h3><a target="_blank" rel="noopener"></a></h3><p></p></article>',
-	      rssUrls: ['https://codepen.io/picks/feed/','https://www.sans.org/tip-of-the-day/rss']
-	    }
+	      itemTemplate: '<article><h3><a target="_blank" rel="noopener"></a></h3><p></p></article>'
+		}
 
 	    if (arguments[0] && typeof arguments[0] === "object") {
 	    	this.options = extendDefaults(defaults, arguments[0]);
 	    }
 
-	    fetchfeeds(this);
+	  	if (localStorage.getItem("JSReaderUrls") ){
+			fetchfeeds(this);
+	  	}
+
+	  	jsreader = this;
+
+		window.addEventListener("load", function(){
+			addUrlForm(jsreader);
+		});
 	}
 
 	// JSReader.prototype.open = function() {
@@ -43,7 +55,8 @@ var feeds = new JSReader({
 	}
 
 	function fetchfeeds(obj){
-		obj.options.rssUrls.forEach(url => fetchfeed(obj, `${url}`));
+		rssUrls = localStorage.getItem("JSReaderUrls").split("\n");
+		rssUrls.forEach(url => fetchfeed(obj, `${url}`));			
 	}
 
 	function fetchfeed(obj, url){
@@ -71,11 +84,25 @@ var feeds = new JSReader({
 				});
 
 				document.querySelector(obj.options.containerSelector).appendChild(channelnode);
+
+				return obj;
 		 	});
 	}
 
 	function clean(str){
 		return str.replace("<![CDATA[", "").replace("]]>", "");
+	}
+
+	function addUrlForm(obj){
+		template = document.createElement('template');
+		template.innerHTML = obj.urlFormTemplate;
+
+		node = document.importNode(template.content, true);
+		node.querySelector('textarea').value = localStorage.getItem("JSReaderUrls");			
+		node.querySelector('textarea').addEventListener('blur',function(){
+			localStorage.setItem("JSReaderUrls", this.value);
+		});
+		document.querySelector(obj.options.containerSelector).appendChild(node);
 	}
 
 }());
