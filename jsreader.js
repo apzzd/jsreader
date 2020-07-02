@@ -15,13 +15,15 @@ var feeds = new JSReader({
 (function () {
 
 	this.JSReader = function(){
-		this.urlFormTemplate = '<textarea id="rssUrls"></textarea>';
+		this.templates = {
+			urlform: '<textarea id="rssUrls"></textarea>',
+			channel: '<section><h2></h2></section>',
+			item: '<article><h3><a target="_blank" rel="noopener"></a></h3><p></p></article>'
+		}
 
 		// TODO: move urls to local storage
 		var defaults = {
-	      containerSelector: 'body',
-	      channelTemplate: '<section><h2></h2></section>',
-	      itemTemplate: '<article><h3><a target="_blank" rel="noopener"></a></h3><p></p></article>'
+	      containerSelector: 'body'
 		}
 
 	    if (arguments[0] && typeof arguments[0] === "object") {
@@ -56,6 +58,7 @@ var feeds = new JSReader({
 
 	function fetchfeeds(obj){
 		rssUrls = localStorage.getItem("JSReaderUrls").split("\n");
+		// TODO clean this list: trim, and throw out empty strings
 		rssUrls.forEach(url => fetchfeed(obj, `${url}`));			
 	}
 
@@ -67,14 +70,15 @@ var feeds = new JSReader({
 // TODO: check for injection of malcious content
 
 				channeltemplate = document.createElement('template');
-				channeltemplate.innerHTML = obj.options.channelTemplate;
+				channeltemplate.innerHTML = obj.templates.channel;
 				channelnode = document.importNode(channeltemplate.content, true);
+				console.log(data);
 				channelnode.querySelector('h2').innerHTML = clean(data.querySelector("channel title").innerHTML);
 
 				const items = data.querySelectorAll("item");
 				items.forEach(el => {
 					var template = document.createElement('template');
-					template.innerHTML = obj.options.itemTemplate;
+					template.innerHTML = obj.templates.item;
 
 					node = document.importNode(template.content, true);
 					node.querySelector('a').text = clean(el.querySelector('title').innerHTML);
@@ -95,14 +99,14 @@ var feeds = new JSReader({
 
 	function addUrlForm(obj){
 		template = document.createElement('template');
-		template.innerHTML = obj.urlFormTemplate;
+		template.innerHTML = obj.templates.urlform;
 
 		node = document.importNode(template.content, true);
 		node.querySelector('textarea').value = localStorage.getItem("JSReaderUrls");			
 		node.querySelector('textarea').addEventListener('blur',function(){
 			localStorage.setItem("JSReaderUrls", this.value);
 		});
-		document.querySelector(obj.options.containerSelector).appendChild(node);
+		document.querySelector(obj.options.containerSelector).parentElement.appendChild(node);
 	}
 
 }());
