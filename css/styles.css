@@ -1,0 +1,18 @@
+/*
+COLOR PALETTE
+https://coolors.co/ed6a5a-f4f1bb-9bc1bc-5d576b-e6ebe0
+#ED6A5A - terra cotta
+#F4F1BB - pale spring bud (yellow)
+#9BC1BC - opal (dull teal)
+#5D576B - independence (dark purple)
+#E6EBE0 - alabaster
+*/
+
+
+html {
+  box-sizing: border-box;
+}
+
+*, *:before, *:after {
+  box-sizing: inherit;
+}

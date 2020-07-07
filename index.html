@@ -1,4 +1,5 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 	<template id='itemtemplate'>
 		<article>
 			<h3><a href="" target="_blank" rel="noopener"></a></h3>
@@ -7,7 +8,13 @@
 	</template>
 
 	<head>
-		<script type="text/javascript" src='jsreader.js'></script>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>My RSS Feed Reader</title>
+
+		<link rel="stylesheet" href="css/styles.css">
+
+		<script type="text/javascript" src='js/jsreader.js'></script>
 		<script type="text/javascript">
 			var feeds = new JSReader({
 			    containerSelector: '#articles'
@@ -15,13 +22,14 @@
 		</script>
 	</head>
 	<body>
+		<main>
 			<h1>Read</h1>
 			<div id='articles'></div>
 
 TODO css!
 
 
-
+		</main>
 	</body>
 </html>
 
