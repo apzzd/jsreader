@@ -21,7 +21,6 @@ var feeds = new JSReader({
 			item: '<article><h3><a target="_blank" rel="noopener"></a></h3><p></p></article>'
 		}
 
-		// TODO: move urls to local storage
 		var defaults = {
 	      containerSelector: 'body'
 		}
@@ -58,7 +57,7 @@ var feeds = new JSReader({
 
 	function fetchfeeds(obj){
 		rssUrls = localStorage.getItem("JSReaderUrls").split("\n");
-		// TODO clean this list: trim, and throw out empty strings
+		rssUrls = rssUrls.filter(function (item) { return item.length > 0; });
 		rssUrls.forEach(url => fetchfeed(obj, `${url}`));			
 	}
 
@@ -72,7 +71,6 @@ var feeds = new JSReader({
 				channeltemplate = document.createElement('template');
 				channeltemplate.innerHTML = obj.templates.channel;
 				channelnode = document.importNode(channeltemplate.content, true);
-				console.log(data);
 				channelnode.querySelector('h2').innerHTML = clean(data.querySelector("channel title").innerHTML);
 
 				const items = data.querySelectorAll("item");
