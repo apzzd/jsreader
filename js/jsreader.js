@@ -1,17 +1,3 @@
-
-/*
-Thank you https://css-tricks.com/how-to-fetch-and-parse-rss-feeds-in-javascript/.
-
-refresher on building a plugin: https://scotch.io/tutorials/building-your-own-javascript-modal-plugin
-
-var feeds = new JSReader({
-    containerSelector: 'body'
-});
-
-//	      rssUrls: ['https://codepen.io/picks/feed/','https://www.sans.org/tip-of-the-day/rss']
-
-
-*/
 (function () {
 
 	this.JSReader = function(){
@@ -39,11 +25,6 @@ var feeds = new JSReader({
 			addUrlForm(jsreader);
 		});
 	}
-
-	// JSReader.prototype.open = function() {
-	// // public code goes here
-	// }
-
 
 	function extendDefaults(source, properties) {
 		var property;
