@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>My RSS Feed Reader</title>
+
+		<link rel="stylesheet" href="css/styles.css">
+
+		<script type="text/javascript" src='js/jsreader.js'></script>
+		<script type="text/javascript">
+			var feeds = new JSReader({
+			    containerSelector: '#articles'
+			});
+		</script>
+	</head>
+
+	<body>
+		<header>
+			<h1>Time to Read</h1>
+		</header>
+		<main>
+
+			<div id='articles'></div>
+
+		</main>
+	</body>
+</html>
+

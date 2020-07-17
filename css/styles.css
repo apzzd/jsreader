@@ -1,0 +1,89 @@
+/*
+COLOR PALETTE
+https://coolors.co/ed6a5a-f4f1bb-9bc1bc-5d576b-e6ebe0
+#ED6A5A - terra cotta
+#F4F1BB - pale spring bud (yellow)
+#9BC1BC - opal (dull teal)
+#5D576B - independence (dark purple)
+#E6EBE0 - alabaster
+*/
+
+
+html {
+  box-sizing: border-box;
+}
+
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
+body {
+  background: #E6EBE0;
+  color: #5D576B;
+  margin: 0;
+  padding: 0;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+a {
+	color: #ED6A5A;
+}
+
+header, main {
+  max-width: 800px;
+  width: 85%;
+  margin: 0 auto;
+}
+
+header {
+  background: #9BC1BC;
+  padding: 1px 15px;
+}
+
+h1 {
+  margin: 5px auto;
+  line-height: 1;
+}
+
+main {
+  background: #FFF;
+  padding: 10px 15px;
+}
+
+h2 {
+	margin: 5px auto;
+	line-height: 1;
+	background: #F4F1BB;
+	padding: 5px;
+}
+
+section {
+	margin-bottom: 40px;
+}
+
+main article {
+	border-bottom: 1px solid #9BC1BC;
+}
+
+textarea {
+	width: 100%;
+	height: 100px;
+	margin-top: 10px;
+}
+
+@media screen and (min-width:501px){
+  img {
+	width: 200px;
+	height: auto;
+  }
+}
+
+@media screen and (max-width:500px){
+  img {
+  	max-width: 100%;
+	height: auto;
+	display: block;
+  }
+}
