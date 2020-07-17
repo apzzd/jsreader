@@ -16,7 +16,7 @@ var feeds = new JSReader({
 
 	this.JSReader = function(){
 		this.templates = {
-			urlform: '<textarea id="rssUrls"></textarea>',
+			urlform: '<div><h2>My Feeds</h2><p>Add one feed URL per line.</p><textarea id="rssUrls"></textarea></div>',
 			channel: '<section><h2></h2></section>',
 			item: '<article><h3><a target="_blank" rel="noopener"></a></h3><p></p></article>'
 		}
