@@ -49,29 +49,12 @@
 			.then(data => {
 // TODO: check for injection of malcious content
 
-				channeltemplate = document.createElement('template');
-				channeltemplate.innerHTML = obj.templates.channel;
-				channelnode = document.importNode(channeltemplate.content, true);
-				channelnode.querySelector('h2').innerHTML = clean(data.querySelector("channel title").innerHTML);
-
-				const items = data.querySelectorAll("item");
-				items.forEach(el => {
-					var template = document.createElement('template');
-					template.innerHTML = obj.templates.item;
-
-					node = document.importNode(template.content, true);
-					node.querySelector('a').text = clean(el.querySelector('title').innerHTML);
-					node.querySelector('a').href = el.querySelector('link').innerHTML;
-					node.querySelector('p').innerHTML = clean(el.querySelector('description').innerHTML);
-
-					if (el.querySelector('enclosure') && el.querySelector('enclosure').getAttribute('type') == 'image/jpeg'){
-						node.querySelector('img').src = el.querySelector('enclosure').getAttribute('url');
-					}
-
-					channelnode.querySelector('section').appendChild(node);
-				});
-
-				document.querySelector(obj.options.containerSelector).appendChild(channelnode);
+				if (data.querySelector('rss')){
+					appendRss(obj, data);
+				}
+				if (data.querySelector('feed')){
+					appendAtom(obj, data);
+				}
 
 				return obj;
 		 	});
@@ -79,6 +62,60 @@
 
 	function clean(str){
 		return str.replace("<![CDATA[", "").replace("]]>", "");
+	}
+
+	function appendRss(obj, data){
+		channeltemplate = document.createElement('template');
+		channeltemplate.innerHTML = obj.templates.channel;
+		channelnode = document.importNode(channeltemplate.content, true);
+		channelnode.querySelector('h2').innerHTML = clean(data.querySelector("channel title").innerHTML);
+
+		const items = data.querySelectorAll("item");
+		items.forEach(el => {
+			var template = document.createElement('template');
+			template.innerHTML = obj.templates.item;
+
+			node = document.importNode(template.content, true);
+			node.querySelector('a').text = clean(el.querySelector('title').innerHTML);
+			node.querySelector('a').href = el.querySelector('link').innerHTML;
+			node.querySelector('p').innerHTML = clean(el.querySelector('description').innerHTML);
+
+			if (el.querySelector('enclosure') && el.querySelector('enclosure').getAttribute('type') == 'image/jpeg'){
+				node.querySelector('img').src = el.querySelector('enclosure').getAttribute('url');
+			}
+
+			channelnode.querySelector('section').appendChild(node);
+		});
+
+		document.querySelector(obj.options.containerSelector).appendChild(channelnode);
+
+	}
+
+	function appendAtom(obj, data){
+		channeltemplate = document.createElement('template');
+		channeltemplate.innerHTML = obj.templates.channel;
+		channelnode = document.importNode(channeltemplate.content, true);
+		channelnode.querySelector('h2').innerHTML = clean(data.querySelector("title").innerHTML);
+/*
+		const items = data.querySelectorAll("item");
+		items.forEach(el => {
+			var template = document.createElement('template');
+			template.innerHTML = obj.templates.item;
+
+			node = document.importNode(template.content, true);
+			node.querySelector('a').text = clean(el.querySelector('title').innerHTML);
+			node.querySelector('a').href = el.querySelector('link').innerHTML;
+			node.querySelector('p').innerHTML = clean(el.querySelector('description').innerHTML);
+
+			if (el.querySelector('enclosure') && el.querySelector('enclosure').getAttribute('type') == 'image/jpeg'){
+				node.querySelector('img').src = el.querySelector('enclosure').getAttribute('url');
+			}
+
+			channelnode.querySelector('section').appendChild(node);
+		});
+*/
+		document.querySelector(obj.options.containerSelector).appendChild(channelnode);
+
 	}
 
 	function addUrlForm(obj){
