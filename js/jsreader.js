@@ -8,7 +8,8 @@
 		}
 
 		var defaults = {
-	      containerSelector: 'body'
+	      containerSelector: 'body',
+	      itemCount: 50
 		}
 
 	    if (arguments[0] && typeof arguments[0] === "object") {
@@ -39,7 +40,7 @@
 	function fetchfeeds(obj){
 		rssUrls = localStorage.getItem("JSReaderUrls").split("\n");
 		rssUrls = rssUrls.filter(function (item) { return item.length > 0; });
-		rssUrls.forEach(url => fetchfeed(obj, `${url}`));			
+		rssUrls.forEach(url => fetchfeed(obj, `${url}`));
 	}
 
 	function fetchfeed(obj, url){
@@ -71,7 +72,8 @@
 		channelnode.querySelector('h2').innerHTML = clean(data.querySelector("channel title").innerHTML);
 
 		const items = data.querySelectorAll("item");
-		items.forEach(el => {
+		for (var i = 0; i < Math.min(obj.options.itemCount, items.length); i++){
+			el = items[i];
 			var template = document.createElement('template');
 			template.innerHTML = obj.templates.item;
 
@@ -85,7 +87,7 @@
 			}
 
 			channelnode.querySelector('section').appendChild(node);
-		});
+		}
 
 		document.querySelector(obj.options.containerSelector).appendChild(channelnode);
 
