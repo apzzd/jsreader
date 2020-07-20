@@ -1,6 +1,6 @@
 # jsreader
 
-This is an RSS feedvreader written in javascript, using local storage to store your RSS URLs. Style with your own CSS.
+This is an RSS feed reader written in javascript, using local storage to store your RSS URLs. Host it on your machine: it's all client-side, and fetches won't require CORS access. Style with your own CSS.
 
 ## Usage
 ```

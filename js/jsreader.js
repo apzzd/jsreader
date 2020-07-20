@@ -4,7 +4,7 @@
 		this.templates = {
 			urlform: '<div><h2>My Feeds</h2><p>Add one feed URL per line.</p><textarea id="rssUrls"></textarea></div>',
 			channel: '<section><h2></h2></section>',
-			item: '<article><h3><a target="_blank" rel="noopener"></a></h3><p></p></article>'
+			item: '<article><h3><a target="_blank" rel="noopener"></a></h3><p></p><img></article>'
 		}
 
 		var defaults = {
@@ -63,6 +63,11 @@
 					node.querySelector('a').text = clean(el.querySelector('title').innerHTML);
 					node.querySelector('a').href = el.querySelector('link').innerHTML;
 					node.querySelector('p').innerHTML = clean(el.querySelector('description').innerHTML);
+
+					if (el.querySelector('enclosure') && el.querySelector('enclosure').getAttribute('type') == 'image/jpeg'){
+						node.querySelector('img').src = el.querySelector('enclosure').getAttribute('url');
+					}
+
 					channelnode.querySelector('section').appendChild(node);
 				});
 
