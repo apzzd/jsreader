@@ -98,24 +98,21 @@
 		channeltemplate.innerHTML = obj.templates.channel;
 		channelnode = document.importNode(channeltemplate.content, true);
 		channelnode.querySelector('h2').innerHTML = clean(data.querySelector("title").innerHTML);
-/*
-		const items = data.querySelectorAll("item");
-		items.forEach(el => {
+
+		const items = data.querySelectorAll("entry");
+		for (var i = 0; i < Math.min(obj.options.itemCount, items.length); i++){
+			el = items[i];
 			var template = document.createElement('template');
 			template.innerHTML = obj.templates.item;
 
 			node = document.importNode(template.content, true);
 			node.querySelector('a').text = clean(el.querySelector('title').innerHTML);
 			node.querySelector('a').href = el.querySelector('link').innerHTML;
-			node.querySelector('p').innerHTML = clean(el.querySelector('description').innerHTML);
-
-			if (el.querySelector('enclosure') && el.querySelector('enclosure').getAttribute('type') == 'image/jpeg'){
-				node.querySelector('img').src = el.querySelector('enclosure').getAttribute('url');
-			}
+			node.querySelector('p').innerHTML = clean(el.querySelector('content').innerHTML).substring(0,200);
 
 			channelnode.querySelector('section').appendChild(node);
-		});
-*/
+		}
+
 		document.querySelector(obj.options.containerSelector).appendChild(channelnode);
 
 	}
